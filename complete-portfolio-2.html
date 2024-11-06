@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soujash Banerjee - Portfolio</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom right, #000000 60%, #003300);
+            z-index: 1;
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            color: #00FF00;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            color: #00CC00;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .social-links a {
+            background: rgba(0, 255, 0, 0.1);
+            padding: 1rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: rgba(0, 255, 0, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .section {
+            padding: 6rem 2rem;
+            color: #00FF00;
+        }
+
+        .section h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .cards-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 2rem;
+            border-radius: 1rem;
+            backdrop-filter: blur(10px);
+            color: #00FF00;
+            transition: transform 0.3s ease;
+            box-shadow: 0px 4px 20px rgba(0, 255, 0, 0.2);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        .skill-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Resume Section */
+        .resume {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 4rem 2rem;
+            color: #00FF00;
+            border-radius: 1rem;
+        }
+
+        .resume iframe {
+            width: 100%;
+            height: 500px;
+            border: 1px solid lightgray;
+        }
+
+        .download-btn {
+            display: inline-block;
+            margin-top: 1.5rem;
+            padding: 1rem 2rem;
+            background-color: #00FF00;
+            color: black;
+            font-size: 1.2rem;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .download-btn:hover {
+            background-color: #00CC00;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: #000;
+            color: #00FF00;
+            padding: 2rem;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+
+        footer a {
+            color: #00FF00;
+            text-decoration: none;
+            margin: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        footer a:hover {
+            color: #00CC00;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+
+    <div class="content">
+        <section class="hero">
+            <div>
+                <h1>Soujash Banerjee</h1>
+                <p>Machine Learning Research & Development</p>
+                <div class="social-links">
+                    <a href="mailto:soujashban@gmail.com">
+                        <img src="/api/placeholder/24/24" alt="Email">
+                    </a>
+                    <a href="#">
+                        <img src="/api/placeholder/24/24" alt="GitHub">
+                    </a>
+                    <a href="#">
+                        <img src="/api/placeholder/24/24" alt="LinkedIn">
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="experience">
+            <h2>Professional Experience</h2>
+            <div class="cards-container">
+                <div class="card">
+                    <h3>IEMA Labs</h3>
+                    <p>Research Intern | Jan 2024 - Present</p>
+                    <p>Engineered Asset Health Management system with 97% accuracy</p>
+                </div>
+                <div class="card">
+                    <h3>IIT Kharagpur</h3>
+                    <p>ML Research Intern | May 2024 - June 2024</p>
+                    <p>Architected Project TACTIC with 92% accuracy</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="skills">
+            <h2>Skills & Technologies</h2>
+            <div class="cards-container">
+                <div class="card">
+                    <h3>Python</h3>
+                    <div class="skill-icon">🐍</div>
+                    <p>Proficient in Python for ML and Data Science projects</p>
+                </div>
+                <div class="card">
+                    <h3>TensorFlow</h3>
+                    <div class="skill-icon">📊</div>
+                    <p>Deep learning framework for building and training models</p>
+                </div>
+                <div class="card">
+                    <h3>Cloud Computing</h3>
+                    <div class="skill-icon">☁️</div>
+                    <p>Experience with AWS, Azure, and GCP for scalable solutions</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="projects">
+            <h2>Projects</h2>
+            <div class="cards-container">
+                <div class="card">
+                    <h3>Asset Health Monitor</h3>
+                    <p>Enterprise-scale predictive maintenance system with 97.6% prediction accuracy.</p>
+                </div>
+                <div class="card">
+                    <h3>NexusSM</h3>
+                    <p>High-performance social media platform with 99.9% uptime and 100,000+ users.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Resume Section -->
+        <section class="resume">
+            <h2>My Resume</h2>
+            <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe" src="https://heyzine.com/flip-book/faeb4d2d74.html" style="border: 1px solid rgb(27, 27, 27); width: 100%; height: 600px;"></iframe>
+            <a href="path-to-your-resume.pdf" class="download-btn" download>Download My Resume</a>
+        </section>
+
+        <footer>
+            <p>Contact me at <a href="mailto:soujashban@gmail.com">soujashban@gmail.com</a></p>
+            <p>Check my work on <a href="#">GitHub</a> and <a href="#">LinkedIn</a></p>
+        </footer>
+    </div>
+
+    <script>
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: '#00FF00' },
+                shape: { type: 'circle' },
+                opacity: { value: 0.5 },
+                size: { value: 3, random: true },
+                line_linked: { enable: true, distance: 150, color: '#00FF00', opacity: 0.4, width: 1 },
+                move: { enable: true, speed: 2 }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' } },
+                resize: true
+            },
+            retina_detect: true
+        });
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Hero Animations
+        gsap.to('.hero h1', { opacity: 1, y: 0, duration: 1, delay: 0.5 });
+        gsap.to('.hero p', { opacity: 1, y: 0, duration: 1, delay: 0.7 });
+        gsap.to('.social-links', { opacity: 1, y: 0, duration: 1, delay: 0.9 });
+
+        // Experience and Project Cards Fade-In Animation (No Fade-Out)
+        gsap.utils.toArray('.section').forEach(section => {
+            gsap.fromTo(section.querySelectorAll('.card'),
+                { opacity: 0, y: 30 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1,
+                    stagger: 0.3,
+                    scrollTrigger: {
+                        trigger: section,
+                        start: 'top 80%',
+                        end: 'top 30%',
+                        toggleActions: 'play none none none'
+                    }
+                });
+        });
+
+        // Parallax Effect based on Mouse Movement
+        document.addEventListener('mousemove', (e) => {
+            let x = (e.clientX / window.innerWidth - 0.5) * 2;
+            let y = (e.clientY / window.innerHeight - 0.5) * 2;
+            gsap.to('.content', {
+                x: x * 50,
+                y: y * 50,
+                duration: 1,
+                ease: 'power2.out'
+            });
+        });
+    </script>
+</body>
+</html>
