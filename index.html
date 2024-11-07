@@ -9,6 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -115,7 +116,6 @@
             margin-bottom: 1rem;
         }
 
-        /* Resume Section */
         .resume {
             background: rgba(0, 0, 0, 0.6);
             padding: 4rem 2rem;
@@ -146,7 +146,6 @@
             background-color: #00CC00;
         }
 
-        /* Footer Styles */
         footer {
             background-color: #000;
             color: #00FF00;
@@ -166,10 +165,42 @@
             color: #00CC00;
         }
 
+        /* Toast Styles */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 255, 0, 0.2);
+            color: #00FF00;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px rgba(0, 255, 0, 0.1);
+            z-index: 1000;
+            display: none;
+            text-align: center;
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            font-size: 1rem;
+            white-space: nowrap;
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translate(-50%, 20px);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
+        }
     </style>
 </head>
 <body>
     <div id="particles-js"></div>
+    <div id="toast" class="toast"></div>
 
     <div class="content">
         <section class="hero">
@@ -177,14 +208,14 @@
                 <h1>Soujash Banerjee</h1>
                 <p>Machine Learning Research & Development</p>
                 <div class="social-links">
-                    <a href="mailto:soujashban@gmail.com">
-                        <img src="/api/placeholder/24/24" alt="Email">
+                    <a href="mailto:soujashban@gmail.com" target="_blank">
+                        <i class="fas fa-envelope"></i>
                     </a>
-                    <a href="#">
-                        <img src="/api/placeholder/24/24" alt="GitHub">
+                    <a href="https://github.com/Soujash-123" target="_blank">
+                        <i class="fab fa-github"></i>
                     </a>
-                    <a href="#">
-                        <img src="/api/placeholder/24/24" alt="LinkedIn">
+                    <a href="https://www.linkedin.com/in/soujash-banerjee-99bba125b/" target="_blank">
+                        <i class="fab fa-linkedin"></i>
                     </a>
                 </div>
             </div>
@@ -241,7 +272,6 @@
             </div>
         </section>
 
-        <!-- Resume Section -->
         <section class="resume">
             <h2>My Resume</h2>
             <iframe allowfullscreen="allowfullscreen" scrolling="no" class="fp-iframe" src="https://heyzine.com/flip-book/faeb4d2d74.html" style="border: 1px solid rgb(27, 27, 27); width: 100%; height: 600px;"></iframe>
@@ -254,7 +284,9 @@
         </footer>
     </div>
 
-    <script>
+    
+        <script>
+        // Previous particlesJS configuration remains the same
         particlesJS('particles-js', {
             particles: {
                 number: { value: 80, density: { enable: true, value_area: 800 } },
@@ -275,12 +307,81 @@
 
         gsap.registerPlugin(ScrollTrigger);
 
+        // Modified Toast and Activity Detection System
+        let inactivityTimer;
+        let isToastVisible = false;
+        const INACTIVITY_DELAY = 4000; // 4 seconds
+
+        function showToast() {
+            if (!isToastVisible) {
+                const toast = document.getElementById('toast');
+                const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                
+                toast.textContent = isMobile 
+                    ? '✨ Tilt your phone around to see some magic! ✨'
+                    : '✨ Move your mouse around to see some magic! ✨';
+                toast.style.display = 'block';
+                isToastVisible = true;
+            }
+        }
+
+        function hideToast() {
+            if (isToastVisible) {
+                const toast = document.getElementById('toast');
+                toast.style.display = 'none';
+                isToastVisible = false;
+            }
+        }
+
+        function resetInactivityTimer() {
+            clearTimeout(inactivityTimer);
+            hideToast();
+            inactivityTimer = setTimeout(showToast, INACTIVITY_DELAY);
+        }
+
+        // Activity detection for desktop
+        document.addEventListener('mousemove', resetInactivityTimer);
+        document.addEventListener('keypress', resetInactivityTimer);
+        document.addEventListener('click', resetInactivityTimer);
+        document.addEventListener('scroll', resetInactivityTimer);
+
+        // Activity detection for mobile
+        let lastGyroTime = Date.now();
+        if (window.DeviceOrientationEvent) {
+            window.addEventListener('deviceorientation', (event) => {
+                // Only consider it as activity if the change is significant enough
+                const now = Date.now();
+                if (now - lastGyroTime > 100) { // Throttle to avoid too frequent updates
+                    resetInactivityTimer();
+                    lastGyroTime = now;
+                }
+
+                let tiltX = event.gamma;
+                let tiltY = event.beta;
+
+                // Normalize the tilt values
+                let normalizedX = (tiltX / 45) * 50;
+                let normalizedY = (tiltY / 45) * 50;
+
+                // Apply parallax effect using GSAP
+                gsap.to('.content', {
+                    x: normalizedX,
+                    y: normalizedY,
+                    duration: 1,
+                    ease: 'power2.out'
+                });
+            });
+        }
+
+        // Initial setup
+        resetInactivityTimer();
+
         // Hero Animations
         gsap.to('.hero h1', { opacity: 1, y: 0, duration: 1, delay: 0.5 });
         gsap.to('.hero p', { opacity: 1, y: 0, duration: 1, delay: 0.7 });
         gsap.to('.social-links', { opacity: 1, y: 0, duration: 1, delay: 0.9 });
 
-        // Experience and Project Cards Fade-In Animation (No Fade-Out)
+        // Experience and Project Cards Animation
         gsap.utils.toArray('.section').forEach(section => {
             gsap.fromTo(section.querySelectorAll('.card'),
                 { opacity: 0, y: 30 },
@@ -298,7 +399,7 @@
                 });
         });
 
-        // Parallax Effect based on Mouse Movement
+        // Parallax Effect for Desktop
         document.addEventListener('mousemove', (e) => {
             let x = (e.clientX / window.innerWidth - 0.5) * 2;
             let y = (e.clientY / window.innerHeight - 0.5) * 2;
@@ -309,24 +410,6 @@
                 ease: 'power2.out'
             });
         });
-        if (window.DeviceOrientationEvent) {
-        window.addEventListener('deviceorientation', (event) => {
-            let tiltX = event.gamma;  // Left to right tilt in degrees.
-            let tiltY = event.beta;   // Front to back tilt in degrees.
-
-            // Normalize the tilt values to a scale that matches our parallax effect.
-            let normalizedX = (tiltX / 45) * 50; // Adjust 45 for sensitivity as needed.
-            let normalizedY = (tiltY / 45) * 50;
-
-            // Apply parallax effect using GSAP
-            gsap.to('.content', {
-                x: normalizedX,
-                y: normalizedY,
-                duration: 1,
-                ease: 'power2.out'
-            });
-        });
-    }
     </script>
 </body>
 </html>
